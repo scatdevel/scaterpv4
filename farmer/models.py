@@ -11,6 +11,7 @@ class CustomUser(AbstractUser):
         ('outlet', 'outlet'),
     )
 
+    credit = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
     two_factor_enabled = models.BooleanField(default=False)
 
@@ -106,3 +107,4 @@ class Contact(models.Model):
     
 def __str__(self):
         return self.name
+

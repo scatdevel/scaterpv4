@@ -1,0 +1,153 @@
+
+{% load i18n %}
+{% load static %}
+
+{% include 'farmer/includes/header.html' %}
+
+    <body class="">
+      
+        {% include 'farmer/includes/sidenav.html' %}
+
+        <div class="page-wrapper">
+            <!-- Top Bar Start -->
+
+            {% include 'farmer/includes/top_bar.html' %}
+          
+            <!-- Top Bar End -->
+
+
+            <div class="page-content">
+                <div class="container-fluid">
+                    <!-- Page-Title -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="page-title-box">
+                                <div class="row">
+                                    <div class="col">
+                                        <h4 class="page-title">{% trans "Assets" %}</h4>
+                                        <ol class="breadcrumb">
+                                            <li class="breadcrumb-item"><a href="javascript:void(0);">Farmer</a></li>
+                                            <li class="breadcrumb-item"><a href="javascript:void(0);">Credit Score</a></li>
+                                            
+                                        </ol>
+                                    </div><!--end col-->
+                                    
+                                    <div class="col-auto align-self-center">                                        
+                                        <div class="d-inline-block">
+                                            <a href="#" class="btn btn-sm btn-outline-primary" id="Dash_Date">
+                                                <span class="day-name" id="Day_Name">Today:</span>&nbsp;
+                                                <span class="" id="Select_date">Jan 11</span>
+                                                <i data-feather="calendar" class="align-self-center icon-xs ms-1"></i>
+                                            </a>
+                                            <a href="#" class="btn btn-sm btn-outline-primary">
+                                                <i data-feather="download" class="align-self-center icon-xs"></i>
+                                            </a>
+                                        </div>                                        
+                                    </div><!--end col-->  
+                                </div><!--end row-->                                                              
+                            </div><!--end page-title-box-->
+                        </div><!--end col-->
+                    </div><!--end row-->
+
+            <!-- Page Content-->
+            
+
+            <div class="row">
+                <div class="col-md-12">        
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h4 class="page-title">Credit Score</h4>
+                                
+                                <div id="animationSandbox">
+                                    <div class="shadow-sm p-4 d-inline-block rounded-circle">
+                                        <img src="/static/assets/images/coin.jpg" alt="" class="center-block" style="width:400px; height:400px;" Animate="flipInX">
+                                        
+                                        <div class="centered-text">2000</div>
+                                        <p><a class="btn btn-sm btn-warning" href="#"><span class="fa fa-edit"></span>Purchase</a>  
+                                            <a class="btn btn-sm btn-danger" href="#"><span class="fa fa-trash"></span>Fund Transfer</a></p>
+                                        {% comment %} <img src="{% url 'coin_image' %}" class="center-block " > {% endcomment %}
+                                    </div>                                                
+                                </div>
+                            </div>
+                           
+                        </div><!--end card-body-->
+                    </div><!--end card-->
+                </div><!--end col-->
+            </div><!--end row-->
+
+
+                    </div><!--end col-->  
+                                                 
+                </div>  <!--end row-->
+
+             
+  <!--end row-->
+  <!--end row-->
+            </div>
+            
+            
+            <!--end tab-pane-->
+
+                    
+
+                   <!-- end row -->
+
+       
+
+
+
+
+            <!--page content start-->
+
+   <!-- jQuery  -->
+   <script src="/static/assets/js/jquery.min.js"></script>
+   <script src="/static/assets/js/bootstrap.bundle.min.js"></script>
+   <script src="/static/assets/js/metismenu.min.js"></script>
+   <script src="/static/assets/js/waves.js"></script>
+   <script src="/static/assets/js/feather.min.js"></script>
+   <script src="/static/assets/js/simplebar.min.js"></script>
+   <script src="/static/assets/js/moment.js"></script>
+   <script src="plugins/daterangepicker/daterangepicker.js"></script>
+
+   <script src="/static/assets/pages/jquery.animate.init.js"></script>
+
+   <!-- App js -->
+   <script src="/static/assets/js/app.js"></script>
+            
+        <script src="/static/assets/pages/jquery.animate.init.js"></script>
+
+        <!-- App js -->
+        <script src="/static/assets/js/app.js"></script>
+
+
+            {% include 'farmer/includes/footer.html' %}  
+    
+            <style>
+                /* Container with relative positioning */
+                .image-container {
+                    position: relative;
+                    width: 400px; /* You can adjust the size or make it responsive */
+                }
+        
+                /* Image styling */
+                .image-container img {
+                    width: 100%;
+                    height: auto; /* Keeps the image responsive */
+                }
+        
+                /* Centered text */
+                .centered-text {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    color: #f9b71b; /* Adjust text color */
+                    font-size: 75px;
+                    font-weight: bold;
+                    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Optional: adds a shadow for better contrast */
+                }
+            </style>
+            </body>
+
+</html>

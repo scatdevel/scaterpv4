@@ -23,17 +23,30 @@ urlpatterns = [
      
 
     ###urls admin to add categories
-   path('categories/', admin_views.category_list, name='category_list'),
+    path('categories/', admin_views.category_list, name='category_list'),
     path('categories/new/', admin_views.category_create, name='category_create'),
     path('categories/edit/<int:id>/', admin_views.category_edit, name='category_edit'),
     path('categories/delete/<int:id>/', admin_views.category_delete, name='category_delete'),
     ###urls admin to add categories
 
 
+    # path('credits_list/', admin_views.credit_list, name='credit_list'),
+    # path('credits/create/', admin_views.create_credit, name='create_credit'),
+    # path('credits/update/<int:pk>/', admin_views.update_credit, name='update_credit'),
+
+    # path('users/<int:user_id>/', admin_views.user_credits, name='user_credits'),  # User credits details
+    # path('users/<int:user_id>/add-credit/', admin_views.add_credit, name='add_credit'),  # Add credit for user
+    # path('users/<int:user_id>/edit-credit/<int:credit_id>/', admin_views    .edit_credit, name='edit_credit'),  # Edit user's credit
+
+
+
+
     path('users_list', admin_views.user_list, name='user_list'),
     path('users/new/', admin_views.user_create, name='user_create'),
     path('users/edit/<int:id>/', admin_views.user_edit, name='user_edit'),
     path('users/delete/<int:id>/', admin_views.user_delete, name='user_delete'),
+    path('users/edit_user_credit/<int:user_id>/', admin_views.edit_user_credit, name='edit_user_credit'),
+ 
 
 
     path('farmer_asset_list/', admin_views.farmer_asset_list, name='farmer_asset_list'),
@@ -100,6 +113,10 @@ urlpatterns = [
     #path('farmer/personal_information', views.personal_information, name='personal_information'),
     #path('farmer/products', views.products, name='products'),
     path('farmer/projection', views.projection, name='projection'),
+
+
+    path('coin-image/', views.coin_with_credit, name='coin_image'),
+    path('farmer/credit', views.credit, name='credit'),
 
 
  #path('farmer/product_list', views.product_list, name='product_list'),

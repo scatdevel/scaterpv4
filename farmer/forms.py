@@ -3,7 +3,30 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import *
 
 class CustomUserCreationForm(UserCreationForm):
-    role = forms.ChoiceField(choices=CustomUser.ROLE_CHOICES, required=True)
+    role = forms.ChoiceField(
+        choices=CustomUser.ROLE_CHOICES, required=True,
+         widget=forms.Select(attrs={'class': 'form-control'})
+         )
+
+    username = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    email = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=True
+    )
+
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=True
+    )
 
     class Meta:
         model = CustomUser
@@ -37,7 +60,17 @@ class CustomLoginForm(UserCreationForm):
     )
 
 
+class UserCreditForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['credit']
+        labels = {'credit': 'Add Credit'}
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if commit:
+            user.save()
+        return user
         
 
 class AgriProductForm(forms.ModelForm):
@@ -180,3 +213,5 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
         fields = ['user','name', 'phone', 'email', 'referral' ]
+
+

@@ -5,8 +5,8 @@ tailwind
 openpyxl
 python-dateutil
 mysqlclient
-
-
+environ
+django_otp
 
 # Example app
 
@@ -15,7 +15,7 @@ django-bootstrap-form
 django-user-sessions
 
 # Documentation
-
+ett
 Sphinx
 sphinx_rtd_theme
 
@@ -23,3 +23,7 @@ sphinx_rtd_theme
 
 wheel
 twine
+django-two-factor-auth
+phonenumbers
+twilio
+Pillow

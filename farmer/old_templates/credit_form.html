@@ -1,0 +1,76 @@
+
+{% load static %}
+
+{% include 'farmer/includes/header.html' %}
+
+    <body class="">
+      
+        {% include 'farmer/includes/sidenav.html' %}
+
+        <div class="page-wrapper">
+            <!-- Top Bar Start -->
+
+            {% include 'farmer/includes/top_bar.html' %}
+          
+            <!-- Top Bar End -->
+
+            <!-- Page Content-->
+            <div  id="Profile_Projection" role="tabpanel" aria-labelledby="portfolio_detail_tab">
+                <li class="creat-btn">
+                    <div class="nav-link">
+                        <a class=" btn btn-sm btn-soft-primary" href="/users/new" role="button"><i class="fas fa-plus me-2"></i>Add new user</a>
+                    </div>                                
+                </li>
+                
+
+ 
+                <div class="row">
+                    <div class="col-12">
+                        
+          
+
+                {% block content %}
+                  <h2><a href="/users/new"> User Create</a></h2>
+                
+                  <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+                
+                <a href="{% url 'user_credits' user.id %}" class="btn btn-secondary">Back to Credits</a>
+                
+                {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+                
+            </div>
+            
+            
+            <!--end tab-pane-->
+
+                    
+
+                   <!-- end row -->
+
+       
+
+
+
+
+            <!--page content start-->
+
+
+
+
+
+            {% include 'farmer/includes/footer.html' %}  
+    
+    
+            </body>
+
+</html>

@@ -8,6 +8,7 @@ from django.http import HttpResponse
 import logging
 from django.shortcuts import redirect
 logger = logging.getLogger(__name__)
+from django.contrib import messages
 
 @login_required
 def farmer_success(request):
@@ -15,6 +16,8 @@ def farmer_success(request):
     #user_id = request.session.get('user_id')
     user_id = request.user.id
     return render(request, 'farmer_success.html',  {'user_id': user_id})
+
+
 
 @login_required
 def products(request):
@@ -34,6 +37,7 @@ def farmer_asset_list(request):
         assets = AgriAsset.objects.all()
         user_id = request.user.id
         return render(request, 'asset_list.html', {'assets': assets,'user_id': user_id })
+
 
 
 @login_required
@@ -126,6 +130,24 @@ def farmer_list(request):
     
     farmer_users = CustomUser.objects.filter(role='farmer')
     return render(request, 'farmer_list.html', {'farmer_users': farmer_users})
+
+
+### add credit farmer
+@login_required
+def edit_user_credit(request, user_id):
+    user = get_object_or_404(CustomUser, pk=user_id)
+    
+    if request.method == 'POST':
+        form = UserCreditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('farmer_list')  # redirect to user list or detail page
+    else:
+        form = UserCreditForm(instance=user)
+    
+    return render(request, 'edit_user_credit.html', {'form': form, 'user': user})
+
+
 
 ###farmer contat list end
 
@@ -371,3 +393,52 @@ def farmer_delete_contact(request, pk):
         contact.delete()
         return redirect('contact_list')
     return render(request, 'contact_confirm_delete.html', {'contact': contact,'user_id': user_id})
+
+
+
+
+### credit list on the admin side-- start
+# List all users
+# @login_required
+# def user_list(request):
+#     users = CustomUser.objects.all()
+#     return render(request, 'credits/user_list.html', {'users': users})
+
+# Show and manage credits for a specific user
+@login_required
+def user_credits(request, user_id):
+    user = get_object_or_404(CustomUser, pk=user_id)
+    credits = Credit.objects.filter(user_id=user_id)
+    print(f"User ID: {user_id}") 
+    
+    return render(request, 'user_credits.html', {'user': user, 'credits': credits,'user_id': user_id})
+
+# Add new credit for the user
+@login_required
+def add_credit(request, user_id):
+    user = get_object_or_404(CustomUser, pk=user_id)
+    if request.method == 'POST':
+        form = CreditForm(request.POST)
+        if form.is_valid():
+            credit = form.save(commit=False)
+            credit.user = user  # Associate credit with selected user
+            credit.save()
+            return redirect('user_credits', user_id=user.id)
+    else:
+        form = CreditForm()
+    return render(request, 'credit_form.html', {'form': form, 'user': user})
+
+# Edit an existing credit for a user
+@login_required
+def edit_credit(request, user_id, credit_id):
+    credit = get_object_or_404(Credit, pk=credit_id, user_id=user_id)
+    if request.method == 'POST':
+        form = CreditForm(request.POST, instance=credit)
+        if form.is_valid():
+            form.save()
+            return redirect('user_credits', user_id=user_id)
+    else:
+        form = CreditForm(instance=credit)
+    return render(request, 'credit_form.html', {'form': form, 'user': credit.user})
+
+### credit list on the admin side-- end

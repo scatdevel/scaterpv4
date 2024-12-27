@@ -6,6 +6,7 @@ from .utils import *
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
+from PIL import Image, ImageDraw, ImageFont
 import logging
 
 from django.conf import settings
@@ -18,7 +19,7 @@ from django.views.decorators.cache import never_cache
 
 #from django_otp.mixins import OTPRequiredMixin
 from .forms import TOTPVerifyForm
-
+import io
 
 import qrcode
 from django_otp.plugins.otp_totp.models import TOTPDevice
@@ -240,6 +241,49 @@ def verify_totp(request):
 
 
 ##function end on otp
+
+
+@login_required
+def credit(request):
+    
+    #profile = Farmer.objects.get(id=1)
+    user_id = request.user.id
+    
+
+    #return render(request, 'profile.html', {'profile': profile})
+    return render(request, 'farmer/credit.html',  {'user_id': user_id})
+
+
+def coin_with_credit(request):
+    # Load the coin image (ensure the image path is correct)
+    image_path = 'static/assets/images/coin.png'  # Adjust path as necessary
+    image = Image.open(image_path)
+    font = ImageFont.truetype("/static/assets/fonts/la-solid-900.ttf", size=24)
+
+    # Create a drawing object
+    draw = ImageDraw.Draw(image)
+
+    # Define the text and font
+    text = "50"
+    font = ImageFont.load_default()  # Load a default font or use a custom font
+
+    # Get image dimensions
+    image_width, image_height = image.size
+
+    # Calculate the position to center the text at the top
+    #text_width, text_height = draw.textsize(text, font=font)
+    position = ((image_width - 10) // 2, 10)  # 10 pixels from the top
+
+    # Add the text to the image
+    draw.text(position, text, font=font, fill="white")  # Change the fill color as needed
+
+    # Save the image to a bytes buffer
+    buffer = io.BytesIO()
+    image.save(buffer, format='PNG')
+    buffer.seek(0)
+
+    # Return the image as an HTTP response
+    return HttpResponse(buffer, content_type='image/png')
 
 
 
