@@ -10,8 +10,7 @@ urlpatterns = [
 
     path('', views.redirect_to_login),
     path('register/', views.register, name='register'),
-    path('register_farmer_detail/<int:user_id>/', views.register_farmer_detail, name='register_farmer_detail'),
-    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('login/', views.login_view, name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('/', views.adminhome, name='adminhome'),
@@ -20,7 +19,22 @@ urlpatterns = [
     path('outlet-dashboard/', views.outlet_dashboard, name='outlet-dashboard'),
 
 
-     
+
+    path('login_farmer/', views.farmer_login_view, name='login'),
+    path('myprofile_farmer/<int:user_id>/', views.myprofile_farmer, name='myprofile_farmer'),
+    path('myprofile_edit_farmer/<int:user_id>/', views.myprofile_edit_farmer, name='myprofile_edit_farmer'),
+    path('register_farmer/', views.register_farmer, name='register_farmer'),
+    path('register_farmer_detail/<int:user_id>/', views.register_farmer_detail, name='register_farmer_detail'),
+    path('farmer_logout/', views.farmer_logout, name='logout'),
+
+
+
+    path('register_franchisee/', views.register_franchisee, name='register_franchisee'),
+    path('myprofile_franchisee/<int:user_id>/', views.myprofile_franchisee, name='myprofile_franchisee'),
+    path('myprofile_edit_franchisee/<int:user_id>/', views.myprofile_edit_franchisee, name='myprofile_edit_franchisee'),
+    path('login_franchisee/', views.franchisee_login_view, name='login'),
+    path('register_franchisee_detail/<int:user_id>/', views.register_franchisee_detail, name='register_franchisee_detail'),
+    path('franchisee_logout/', views.franchisee_logout, name='logout'),
 
     ###urls admin to add categories
     path('categories/', admin_views.category_list, name='category_list'),

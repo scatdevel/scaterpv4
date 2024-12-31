@@ -9,8 +9,13 @@ class CustomUser(AbstractUser):
         ('admin', 'Admin'),
         ('farmer', 'Farmer'),
         ('outlet', 'outlet'),
+        ('franchisee', 'Franchisee'),
     )
 
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    aadhaar = models.CharField(max_length=20, blank=True, null=True)
+    farmer_card = models.CharField(max_length=20, blank=True, null=True)
+    district = models.CharField(max_length=20, blank=True, null=True)
     credit = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
     two_factor_enabled = models.BooleanField(default=False)

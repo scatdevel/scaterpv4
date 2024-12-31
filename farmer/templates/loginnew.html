@@ -1,0 +1,136 @@
+{% load i18n %}
+{% load static %}
+
+<html lang="{{ LANGUAGE_CODE }}">
+    <div class="language-switcher">
+        {% comment %} <form action="{% url 'set_language' %}" method="post" class="flex items-center">
+            {% csrf_token %} <!-- Security token  -->
+            <input name="next" type="hidden" value="{{ redirect_to }}">
+            {% get_current_language as LANGUAGE_CODE %}
+            {% get_available_languages as LANGUAGES %}
+            {% get_language_info_list for LANGUAGES as languages %}
+
+            <button type="submit" name="language" value="en">
+                <img src="{% static 'assets/images/uk_flag.png' %}" alt="English language" style="width:30px;">
+            </button>
+
+        
+
+            <button type="submit" name="language" value="ta">
+                <img src="{% static 'assets/images/ta_india.png' %}" alt="à®¤à®®à®¿à®´à¯ à®®à¯Šà®´à®¿" style="width:30px;">
+            </button>
+        </form> {% endcomment %}
+
+    </div>
+
+
+	<!--begin::Head-->
+	<head><base href="../../../">
+		<title>SCAT</title>
+		<meta name="description" content="The most advanced Bootstrap Admin Theme on Themeforest trusted by 94,000 beginners and professionals. Multi-demo, Dark Mode, RTL support and complete React, Angular, Vue &amp; Laravel versions. Grab your copy now and get life-time updates for free." />
+		<meta name="keywords" content="Metronic, bootstrap, bootstrap 5, Angular, VueJs, React, Laravel, admin themes, web design, figma, web development, free templates, free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button, bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta charset="utf-8" />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:type" content="article" />
+		<meta property="og:title" content="Metronic - Bootstrap 5 HTML, VueJS, React, Angular &amp; Laravel Admin Dashboard Theme" />
+		<meta property="og:url" content="https://keenthemes.com/metronic" />
+		<meta property="og:site_name" content="Keenthemes | Metronic" />
+		<link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
+		<link rel="shortcut icon" href="static/assets/media/logos/favicon.ico" />
+		<!--begin::Fonts-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700" />
+		<!--end::Fonts-->
+		<!--begin::Global Stylesheets Bundle(used by all pages)-->
+		<link href="static/assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+		<link href="static/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+		<!--end::Global Stylesheets Bundle-->
+	</head>
+	<!--end::Head-->
+	<!--begin::Body-->
+	<body id="kt_body" class="bg-body">
+		<!--begin::Main-->
+		<div class="d-flex flex-column flex-root">
+			<!--begin::Authentication - Sign-in -->
+			<div class="d-flex flex-column flex-lg-row flex-column-fluid" style="background-image: url(static/assets/images/back.png);   background-repeat: no-repeat; display: block;  height: auto;">
+				<!--begin::Aside-->
+				<div class="d-flex flex-column flex-lg-row-auto w-xl-800px positon-xl-relative" style="background-color: #fffff;">
+					<!--begin::Wrapper-->
+					<div class="d-flex flex-column position-xl-fixed top-0 bottom-0 w-xl-800px scroll-y">
+						<!--begin::Content-->
+						<div class="d-flex flex-row-fluid flex-column text-center p-10 pt-lg-20">
+							<!--begin::Logo-->
+							<a href="../../demo7/dist/index.html" class="py-9 mb-5">
+								<img alt="Logo" src="static/assets/images/scat_logo.svg" class="h-60px" />
+							</a>
+							<!--end::Logo-->
+							<!--begin::Title-->
+							<h1 class="fw-bolder fs-3qx pb-5 pb-md-10" style="color:  #82c341;">Welcome to SCAT ERP Solutions</h1>
+							<!--end::Title-->
+							<!--begin::Description-->
+							<p class="fw-bold fs-3qx" style="color: #504f4d;">Transforming Ideas
+							<br />into  Digital Solutions</p>
+							<!--end::Description-->
+						</div>
+						<!--end::Content-->
+						<!--begin::Illustration-->
+						<div class="d-flex flex-row-auto bgi-no-repeat bgi-position-x-center bgi-size-contain bgi-position-y-bottom min-h-100px min-h-lg-350px" style="background-image: url(static/assets/images/1.png"></div>
+						<!--end::Illustration-->
+					</div>
+					<!--end::Wrapper-->
+				</div>
+				<!--end::Aside-->
+				<!--begin::Body-->
+				<div class="d-flex flex-column flex-lg-row-fluid py-10">
+					<!--begin::Content-->
+					<div class="d-flex flex-center flex-column flex-column-fluid">
+						<!--begin::Wrapper-->
+						<div class="w-lg-700px p-10 p-lg-15 mx-auto">
+							<!--begin::Form-->
+							{% comment %} <form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" action="#" method> {% endcomment %}
+								<form method="POST">
+
+
+								{% csrf_token %}
+                                               
+								{{ form.as_p }}
+								<button  class="btn btn-primary w-100 waves-effect waves-light" type="submit" class="btn btn-primary">{% trans "Login" %}</button>
+
+
+								<!--end::Actions-->
+							</form>
+							<!--end::Form-->
+						</div>
+						<!--end::Wrapper-->
+					</div>
+					<!--end::Content-->
+					<!--begin::Footer-->
+					<div class="d-flex flex-center flex-wrap fs-6 p-5 pb-0">
+						<!--begin::Links-->
+						<div class="d-flex flex-center fw-bold fs-6">
+							<a href="https://keenthemes.com" class="text-muted text-hover-primary px-2" target="_blank">About</a>
+							<a href="https://keenthemes.com/support" class="text-muted text-hover-primary px-2" target="_blank">Support</a>
+							<a href="https://1.envato.market/EA4JP" class="text-muted text-hover-primary px-2" target="_blank">Purchase</a>
+						</div>
+						<!--end::Links-->
+					</div>
+					<!--end::Footer-->
+				</div>
+				<!--end::Body-->
+			</div>
+			<!--end::Authentication - Sign-in-->
+		</div>
+		<!--end::Main-->
+		<script>var hostUrl = "static/assets/";</script>
+		<!--begin::Javascript-->
+		<!--begin::Global Javascript Bundle(used by all pages)-->
+		<script src="static/assets/plugins/global/plugins.bundle.js"></script>
+		<script src="static/assets/js/scripts.bundle.js"></script>
+		<!--end::Global Javascript Bundle-->
+		<!--begin::Page Custom Javascript(used by this page)-->
+		<script src="static/assets/js/custom/authentication/sign-in/general.js"></script>
+		<!--end::Page Custom Javascript-->
+		<!--end::Javascript-->
+	</body>
+	<!--end::Body-->
+</html>

@@ -17,6 +17,11 @@ class CustomUserCreationForm(UserCreationForm):
         max_length=100,
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
+
+    phone = forms.CharField(
+        max_length=10,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
     
     password1 = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control'}),
@@ -30,7 +35,117 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'role', 'password1', 'password2')
+        fields = ('username', 'email',  'phone','role', 'password1', 'password2')
+
+
+class FarmerCreationForm(UserCreationForm):
+    role = forms.ChoiceField(
+       choices=CustomUser.ROLE_CHOICES,
+        required=True,
+        widget=forms.HiddenInput(),
+        initial='farmer'
+            )
+
+    username = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    email = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    phone = forms.CharField(
+        max_length=10,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=True
+    )
+
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=True
+    )
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'email','phone', 'role', 'password1', 'password2')
+
+
+
+
+class FranchiseeCreationForm(UserCreationForm):
+    role = forms.ChoiceField(
+       choices=CustomUser.ROLE_CHOICES,
+        required=True,
+        widget=forms.HiddenInput(),
+        initial='franchisee'
+            )
+
+    username = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    email = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    phone = forms.CharField(
+        max_length=10,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=True
+    )
+
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=True
+    )
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'email','phone', 'role', 'password1', 'password2')
+
+
+
+class CustomfarmerUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'email', 'phone', 'district', 'aadhaar', 'farmer_card']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'district': forms.TextInput(attrs={'class': 'form-control'}),
+            'aadhaar': forms.TextInput(attrs={'class': 'form-control'}),
+            'farmer_card': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+class CustomfranchiseeUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'email', 'phone', 'district', 'aadhaar', 'farmer_card']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'district': forms.TextInput(attrs={'class': 'form-control'}),
+            'aadhaar': forms.TextInput(attrs={'class': 'form-control'}),
+            'farmer_card': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
 
 class FarmerDetailForm(forms.ModelForm):
     class Meta:

@@ -1,8 +1,9 @@
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate,logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import *
 from .models import *
 from .utils import *
+from .backends import *
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
@@ -37,6 +38,41 @@ logger = logging.getLogger(__name__)
 def redirect_to_login(request):
     return redirect('login')
 
+def farmerauthenticate(phone=None, password=None):
+        User = get_user_model()
+        try:
+            user = User.objects.get(phone=phone)
+            if user.check_password(password):  # Check password hash
+                return user
+        except User.DoesNotExist:
+            return None
+
+def verify_phone_and_password(phone, password):
+    user = farmerauthenticate(phone=phone, password=password)
+    if user is not None:
+        # Authentication successful
+        return user
+    else:
+        # Authentication failed
+        return None
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        
+        # Authenticate user
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            # Log in the user
+            login(request, user)
+            return redirect('dashboard')  # Redirect to the home page or desired view
+        else:
+            messages.error(request, 'Invalid username or password')
+
+    return render(request, 'login.html')
+
+
 def register(request):
     if request.method == 'POST':
         user_form = CustomUserCreationForm(request.POST)
@@ -50,6 +86,191 @@ def register(request):
     else:
         user_form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': user_form})
+
+
+def farmer_login_view(request):
+    if request.method == 'POST':
+        phone = request.POST['phone']
+        password = request.POST['password']
+        user = verify_phone_and_password(phone, password)
+        if user:
+            # Log the user in
+            
+            return redirect('myprofile_farmer', user_id=user.id)  # Redirect to a homepage or dashboard
+        else:
+            messages.error(request, "Invalid phone number or password")
+        
+        
+            
+    return render(request, 'login_farmer.html')
+
+
+def myprofile_farmer(request, user_id):
+    user = CustomUser.objects.get(id=user_id)
+    # if request.method == 'POST':
+    #     form = FranchiseeCreationForm(request.POST)
+    #     if form.is_valid():
+    #         franchisee_detail = form.save(commit=False)
+    #         franchisee_detail.user = user
+    #         franchisee_detail.save()
+    #         login(request, user)
+    #         return redirect('dashboard')
+    # else:
+    #     form = FranchiseeCreationForm()
+    return render(request, 'myprofile_farmer.html', {'user': user})
+
+
+def farmer_logout(request):
+    logout(request)  # Logs the user out
+    return redirect('/login_farmer') 
+
+
+def register_franchisee(request):
+    if request.method == 'POST':
+        franchisee_form = FranchiseeCreationForm(request.POST)
+        if franchisee_form.is_valid():
+            user = franchisee_form.save()
+            if user.role == 'franchisee':
+                return redirect('register_franchisee_detail', user_id=user.id)
+            else:
+                login(request, user)
+                return redirect('dashboard')
+    else:
+        franchisee_form = FranchiseeCreationForm()
+    return render(request, 'register_franchisee.html', {'form': franchisee_form})
+
+
+def register_franchisee_detail(request, user_id):
+    user = CustomUser.objects.get(id=user_id)
+    if request.method == 'POST':
+        form = FranchiseeCreationForm(request.POST)
+        if form.is_valid():
+            franchisee_detail = form.save(commit=False)
+            franchisee_detail.user = user
+            franchisee_detail.save()
+            login(request, user)
+            return redirect('dashboard')
+    else:
+        form = FranchiseeCreationForm()
+    return render(request, 'register_franchisee_detail.html', {'form': form})
+
+def myprofile_franchisee(request, user_id):
+    user = CustomUser.objects.get(id=user_id)
+    # if request.method == 'POST':
+    #     form = FranchiseeCreationForm(request.POST)
+    #     if form.is_valid():
+    #         franchisee_detail = form.save(commit=False)
+    #         franchisee_detail.user = user
+    #         franchisee_detail.save()
+    #         login(request, user)
+    #         return redirect('dashboard')
+    # else:
+    #     form = FranchiseeCreationForm()
+    return render(request, 'myprofile_franchisee.html', {'user': user})
+
+
+# @login_required
+# def update_profile(request):
+#     user = request.user
+#     if request.method == 'POST':
+#         form = CustomUserUpdateForm(request.POST, instance=user)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('profile')  # Replace with your desired success URL
+#     else:
+#         form = CustomUserUpdateForm(instance=user)
+#     return render(request, 'update_profile.html', {'form': form})
+
+
+def myprofile_edit_franchisee(request, user_id):
+    user = CustomUser.objects.get(id=user_id)
+
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        district = request.POST.get('district')
+        aadhaar = request.POST.get('aadhaar')
+        farmer_card = request.POST.get('farmer_card')
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.phone = phone
+        user.district = district
+        user.aadhaar = aadhaar
+        user.farmer_card = farmer_card
+        user.save()
+        
+        #messages.success(request, "Profile updated successfully!")
+        
+        return redirect(f'/myprofile_franchisee/{user_id}/')
+    else:     
+        return render(request, 'myprofile_edit_franchisee.html', {'user': user})
+
+
+
+def myprofile_edit_farmer(request, user_id):
+    user = CustomUser.objects.get(id=user_id)
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        district = request.POST.get('district')
+        aadhaar = request.POST.get('aadhaar')
+        farmer_card = request.POST.get('farmer_card')
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.phone = phone
+        user.district = district
+        user.aadhaar = aadhaar
+        user.farmer_card = farmer_card
+        user.save()
+        
+        #messages.success(request, "Profile updated successfully!")
+        
+        return redirect(f'/myprofile_farmer/{user_id}/')
+    else:        
+    
+        return render(request, 'myprofile_edit_farmer.html', {'user': user})
+
+def franchisee_logout(request):
+    logout(request)  # Logs the user out
+    return redirect('/login_franchisee') 
+
+def franchisee_login_view(request):
+    if request.method == 'POST':
+        phone = request.POST['phone']
+        password = request.POST['password']
+        user = verify_phone_and_password(phone, password)
+        if user:
+            # Log the user in
+            
+            return redirect('myprofile_franchisee', user_id=user.id)  # Redirect to a homepage or dashboard
+        else:
+            messages.error(request, "Invalid phone number or password")
+        
+        
+            
+    return render(request, 'login_franchisee.html')
+
+
+def register_farmer(request):
+    if request.method == 'POST':
+        farmer_form = FarmerCreationForm(request.POST)
+        if farmer_form.is_valid():
+            user = farmer_form.save()
+            if user.role == 'farmer':
+                return redirect('register_farmer_detail', user_id=user.id)
+            else:
+                login(request, user)
+                return redirect('dashboard')
+    else:
+        farmer_form = FarmerCreationForm()
+    return render(request, 'register_farmer.html', {'form': farmer_form})
+
 
 def register_farmer_detail(request, user_id):
     user = CustomUser.objects.get(id=user_id)
