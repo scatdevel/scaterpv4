@@ -9,6 +9,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from PIL import Image, ImageDraw, ImageFont
 import logging
+import os
 
 from django.conf import settings
 from django.shortcuts import redirect, resolve_url
@@ -209,10 +210,11 @@ def myprofile_edit_franchisee(request, user_id):
         return render(request, 'myprofile_edit_franchisee.html', {'user': user})
 
 
-
-def myprofile_edit_farmer(request, user_id):
+def old_myprofile_edit_farmer(request, user_id):
     user = CustomUser.objects.get(id=user_id)
+    
     if request.method == 'POST':
+        # Fetch form data
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
         email = request.POST.get('email')
@@ -220,6 +222,8 @@ def myprofile_edit_farmer(request, user_id):
         district = request.POST.get('district')
         aadhaar = request.POST.get('aadhaar')
         farmer_card = request.POST.get('farmer_card')
+        
+        # Update user fields
         user.first_name = first_name
         user.last_name = last_name
         user.email = email
@@ -227,14 +231,31 @@ def myprofile_edit_farmer(request, user_id):
         user.district = district
         user.aadhaar = aadhaar
         user.farmer_card = farmer_card
+
+        # Handle Aadhaar file upload
+        
+        if 'aadhaar_file' in request.FILES:
+            aadhaar_file = request.FILES['aadhaar_file']
+            print(aadhaar_file)
+            # Generate new filename with first_name as prefix
+            extension = os.path.splitext(aadhaar_file.name)[1]  # Get file extension
+            new_filename = f"{first_name}_{aadhaar_file.name}"
+            aadhaar_file_path = os.path.join(settings.MEDIA_ROOT, 'farmer_files', new_filename)
+
+            # Save the file to the server
+            with open(aadhaar_file_path, 'wb+') as destination:
+                for chunk in aadhaar_file.chunks():
+                    destination.write(chunk)
+
+            # Update the user's Aadhaar file field if it exists
+            user.aadhaar_file = f'farmer_files/{new_filename}'  # Save relative path to the model
+
         user.save()
         
-        #messages.success(request, "Profile updated successfully!")
-        
+        # Redirect after successful update
         return redirect(f'/myprofile_farmer/{user_id}/')
     else:        
-    
-        return render(request, 'myprofile_edit_farmer.html', {'user': user})
+         return render(request, 'myprofile_edit_farmer.html', {'user': user})
 
 def franchisee_logout(request):
     logout(request)  # Logs the user out
@@ -311,13 +332,17 @@ def dashboard(request):
 @login_required
 @user_passes_test(admin_check)
 def admin_dashboard(request):
-    customusers = CustomUser.objects.all();
-    return render(request, 'index.html', {'customusers': customusers})
+    customusers = CustomUser.objects.all()
+    farmers = CustomUser.objects.filter(role='farmer')
+    return render(request, 'index.html', {'customusers': customusers, 'farmers':farmers})
 
 @login_required
 @user_passes_test(admin_check)
 def adminhome(request):
-    return render(request, 'index.html')
+    customusers = CustomUser.objects.all()
+    
+    return render(request, 'index.html', {'customusers': customusers})
+
 
 
 @login_required
@@ -1031,4 +1056,96 @@ def farmer_delete_contact(request, pk):
 # class ExampleSecretView(OTPRequiredMixin, TemplateView):
 #     template_name = 'secret.html'
 
+###farmer list 
 
+@login_required
+#@user_passes_test(admin_check)
+def farmer_list(request):
+
+    farmers = CustomUser.objects.filter(role='farmer')
+    return render(request, 'farmer_list.html', {'farmers': farmers})
+
+
+
+@login_required
+#@user_passes_test(admin_check)
+def farmer_upload(request):
+
+    if request.method == 'POST':
+        form = FileUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            #return redirect('success')  # Redirect to a success page
+    else:
+        form = FileUploadForm()
+    return render(request, 'farmer_upload.html', {'form': form})
+    
+###franchisee list 
+
+@login_required
+#@user_passes_test(admin_check)
+def franchisee_list(request):
+
+    franchisees = CustomUser.objects.filter(role='franchisee')
+    return render(request, 'franchisee_list.html', {'franchisees': franchisees})
+
+
+def update_farmer_profile(request, user_id):
+    user = CustomUser.objects.get(id=user_id)
+    
+    if request.method == 'POST':
+        form = CustomfarmerUpdateForm(request.POST, request.FILES, instance=user)
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully!")
+            return redirect('farmer_profile', user_id=user.id)  # Replace with actual redirect
+        else:
+            messages.error(request, "Error updating the profile. Please try again.")
+    
+    else:
+        form = CustomfarmerUpdateForm(instance=user)
+    
+    return render(request, 'update_farmer_profile.html', {'form': form, 'user': user})
+
+def myprofile_edit_farmer(request, user_id):
+    user = CustomUser.objects.get(id=user_id)
+    print(user_id)
+
+    if request.method == 'POST':
+        form = CustomfarmerUpdateForm(request.POST, request.FILES, instance=user)
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully!")
+            return redirect('myprofile_farmer', user_id=user.id)  # Replace with actual redirect
+        else:
+            messages.error(request, "Error updating the profile. Please try again.")
+    
+    else:
+        form = CustomfarmerUpdateForm(instance=user)
+    
+    return render(request, 'myprofile_edit_farmer.html', {'form': form, 'user': user})
+
+@login_required
+def activate_user(request, user_id):
+    # Get the user by ID
+    user = get_object_or_404(CustomUser, id=user_id)
+
+    # Activate the user
+    user.is_active = True
+    user.save()
+    return redirect('/farmer_list')
+    
+
+
+@login_required
+def deactivate_user(request, user_id):
+    # Get the user by ID
+    user = get_object_or_404(CustomUser, id=user_id)
+
+    # Activate the user
+    user.is_active = False
+    user.save()    
+    return redirect('/farmer_list')
+    

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Farmer Profile</title>
+</head>
+<body>
+    <h1>Update Farmer Profile</h1>
+    
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <!-- Form fields for the farmer's profile -->
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" value="{{ form.first_name.value }}" required>
+        <br><br>
+        
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" value="{{ form.last_name.value }}" required>
+        <br><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{ form.email.value }}" required>
+        <br><br>
+        
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" value="{{ form.phone.value }}" required>
+        <br><br>
+        
+        <label for="district">District:</label>
+        <input type="text" id="district" name="district" value="{{ form.district.value }}" required>
+        <br><br>
+        
+        <label for="aadhaar">Aadhaar:</label>
+        <input type="text" id="aadhaar" name="aadhaar" value="{{ form.aadhaar.value }}">
+        <br><br>
+        
+        <label for="farmer_card">Farmer Card:</label>
+        <input type="text" id="farmer_card" name="farmer_card" value="{{ form.farmer_card.value }}">
+        <br><br>
+        
+        <label for="aadhaar_file">Aadhaar File:</label>
+        <input type="file" id="aadhaar_file" name="aadhaar_file" accept=".pdf,.jpg,.jpeg,.png">
+        <br><br>
+        
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>

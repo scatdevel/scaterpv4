@@ -117,10 +117,19 @@ class FranchiseeCreationForm(UserCreationForm):
 
 
 
+from django import forms
+from .models import UploadedFile
+
+class FileUploadForm(forms.ModelForm):
+    class Meta:
+        model = UploadedFile
+        fields = ['file', 'description']
+
+
 class CustomfarmerUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'phone', 'district', 'aadhaar', 'farmer_card']
+        fields = ['first_name', 'last_name', 'email', 'phone', 'district', 'aadhaar', 'profile_image','farmer_card','aadhaar_file','farmer_file']
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -129,6 +138,9 @@ class CustomfarmerUpdateForm(forms.ModelForm):
             'district': forms.TextInput(attrs={'class': 'form-control'}),
             'aadhaar': forms.TextInput(attrs={'class': 'form-control'}),
             'farmer_card': forms.TextInput(attrs={'class': 'form-control'}),
+            'profile_image': forms.FileInput(attrs={'class': 'form-control'}),
+            'aadhaar_file': forms.FileInput(attrs={'class': 'form-control'}),
+            'farmer_file': forms.FileInput(attrs={'class': 'form-control'}),
         }
 
 class CustomfranchiseeUpdateForm(forms.ModelForm):
@@ -143,6 +155,9 @@ class CustomfranchiseeUpdateForm(forms.ModelForm):
             'district': forms.TextInput(attrs={'class': 'form-control'}),
             'aadhaar': forms.TextInput(attrs={'class': 'form-control'}),
             'farmer_card': forms.TextInput(attrs={'class': 'form-control'}),
+            'profile_image': forms.FileInput(attrs={'class': 'form-control'}),
+            'aadhaar_file': forms.FileInput(attrs={'class': 'form-control'}),
+            'farmer_file': forms.FileInput(attrs={'class': 'form-control'}),
         }
 
 

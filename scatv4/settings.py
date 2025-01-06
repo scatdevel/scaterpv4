@@ -18,7 +18,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+from django.conf.urls.static import static
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -69,7 +69,7 @@ LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL = '/login/'
 #LOGIN_URL = 'two_factor:login'
 
-
+#AUTHENTICATION_BACKENDS = ['scaterp.backends.PhoneBackend']
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

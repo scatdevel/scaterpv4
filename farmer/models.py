@@ -15,13 +15,23 @@ class CustomUser(AbstractUser):
     phone = models.CharField(max_length=15, blank=True, null=True)
     aadhaar = models.CharField(max_length=20, blank=True, null=True)
     farmer_card = models.CharField(max_length=20, blank=True, null=True)
+    profile_image = models.FileField(upload_to='farmer_files/', null=True, blank=True)
+    aadhaar_file = models.FileField(upload_to='farmer_files/', null=True, blank=True)
+    farmer_file = models.FileField(upload_to='farmer_files/', null=True, blank=True)
     district = models.CharField(max_length=20, blank=True, null=True)
     credit = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
     two_factor_enabled = models.BooleanField(default=False)
+    
 
 # class UserTOTPDevice(TOTPDevice):
 #     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)    
+
+class UploadedFile(models.Model):
+    file = models.FileField(upload_to='farmer_files/')
+    description = models.CharField(max_length=255, blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
 
 class FarmerDetail(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True)
