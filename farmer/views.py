@@ -124,6 +124,21 @@ def myprofile_farmer(request, user_id):
     return render(request, 'myprofile_farmer.html', {'user': user})
 
 
+
+def proprofile_farmer(request, user_id):
+    user = CustomUser.objects.get(id=user_id)
+    # if request.method == 'POST':
+    #     form = FranchiseeCreationForm(request.POST)
+    #     if form.is_valid():
+    #         franchisee_detail = form.save(commit=False)
+    #         franchisee_detail.user = user
+    #         franchisee_detail.save()
+    #         login(request, user)
+    #         return redirect('dashboard')
+    # else:
+    #     form = FranchiseeCreationForm()
+    return render(request, 'proprofile_farmer.html', {'user': user})
+
 def farmer_logout(request):
     logout(request)  # Logs the user out
     return redirect('/login_farmer') 
@@ -197,6 +212,7 @@ def myprofile_edit_franchisee(request, user_id):
         district = request.POST.get('district')
         aadhaar = request.POST.get('aadhaar')
         farmer_card = request.POST.get('farmer_card')
+        pancard = request.POST.get('pancard')
         user.first_name = first_name
         user.last_name = last_name
         user.email = email
@@ -204,6 +220,7 @@ def myprofile_edit_franchisee(request, user_id):
         user.district = district
         user.aadhaar = aadhaar
         user.farmer_card = farmer_card
+        user.pancard = pancard
         user.save()
         
         #messages.success(request, "Profile updated successfully!")
@@ -225,6 +242,7 @@ def old_myprofile_edit_farmer(request, user_id):
         district = request.POST.get('district')
         aadhaar = request.POST.get('aadhaar')
         farmer_card = request.POST.get('farmer_card')
+        pancard = request.POST.get('pancard')
         
         # Update user fields
         user.first_name = first_name
@@ -234,6 +252,7 @@ def old_myprofile_edit_farmer(request, user_id):
         user.district = district
         user.aadhaar = aadhaar
         user.farmer_card = farmer_card
+        user.pancard = pancard
 
         # Handle Aadhaar file upload
         
@@ -678,6 +697,7 @@ def agri_product_update(request, pk):
 
 def agri_product_delete(request, pk):
     user_id = request.user.id
+    
     product = get_object_or_404(AgriProduct, pk=pk, user=request.user)
     if request.method == 'POST':
         product.delete()
@@ -1129,6 +1149,27 @@ def myprofile_edit_farmer(request, user_id):
         form = CustomfarmerUpdateForm(instance=user)
     
     return render(request, 'myprofile_edit_farmer.html', {'form': form, 'user': user})
+
+
+def proprofile_edit_farmer(request, user_id):
+    user = CustomUser.objects.get(id=user_id)
+    print(user_id)
+
+    if request.method == 'POST':
+        form = ProfarmerUpdateForm(request.POST, request.FILES, instance=user)
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully!")
+            return redirect('proprofile_farmer', user_id=user.id)  # Replace with actual redirect
+        else:
+            messages.error(request, "Error updating the profile. Please try again.")
+    
+    else:
+        form = ProfarmerUpdateForm(instance=user)
+    
+    return render(request, 'proprofile_edit_farmer.html', {'form': form, 'user': user})
+
 
 @login_required
 def activate_user(request, user_id):

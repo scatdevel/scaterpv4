@@ -52,8 +52,9 @@
 									<!--end::Mobile menu toggle-->
 									<!--begin::Logo image-->
 									<a href="landing.html">
-										<img alt="Logo" src="/static/assets/media/logos/logo-landing.svg" class="logo-default h-25px h-lg-30px" />
-										<img alt="Logo" src="/static/assets/media/logos/logo-landing-dark.svg" class="logo-sticky h-20px h-lg-25px" />
+										<img alt="Logo" src="/static/assets/images/scat_logo.svg" class="h-30px" />
+
+
 									</a>
 									<!--end::Logo image-->
 								</div>
@@ -111,9 +112,9 @@
 								</div>
 								<!--end::Menu wrapper-->
 								<!--begin::Toolbar-->
-								<div class="flex-equal text-end ms-1">
+								{% comment %} <div class="flex-equal text-end ms-1">
 									<a href="authentication/flows/basic/sign-in.html" class="btn btn-success">Sign In</a>
-								</div>
+								</div> {% endcomment %}
 								<!--end::Toolbar-->
 							</div>
 							<!--end::Wrapper-->
@@ -122,66 +123,50 @@
 					</div>
 					<!--end::Header-->
 					<!--begin::Landing hero-->
-					<div class="d-flex flex-column flex-center w-100 min-h-350px min-h-lg-500px px-9">
-						<!--begin::Heading-->
-						<div class="text-center mb-5 mb-lg-10 py-10 py-lg-20">
-							<!--begin::Title-->
-							<h1 class="text-white lh-base fw-bolder fs-2x fs-lg-3x mb-15">Build An Outstanding Solutions
-							<br />with
-							<span style="background: linear-gradient(to right, #12CE5D 0%, #FFD80C 100%);-webkit-background-clip: text;-webkit-text-fill-color: transparent;">
-								<span id="kt_landing_hero_text">The Best Theme Ever</span>
-							</span></h1>
-							<!--end::Title-->
-							<!--begin::Action-->
-							<a href="index.html" class="btn btn-primary">Try Metronic</a>
-							<!--end::Action-->
+					<div id="metronicCarousel" class="carousel slide" data-bs-ride="carousel">
+						<!-- Indicators -->
+						<div class="carousel-indicators">
+						  <button type="button" data-bs-target="#metronicCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+						  <button type="button" data-bs-target="#metronicCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+						  {% comment %} <button type="button" data-bs-target="#metronicCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button> {% endcomment %}
 						</div>
-						<!--end::Heading-->
-						<!--begin::Clients-->
-						<div class="d-flex flex-center flex-wrap position-relative px-5">
-							<!--begin::Client-->
-							<div class="d-flex flex-center m-3 m-md-6" data-bs-toggle="tooltip" title="Fujifilm">
-								<img src="/static/assets/media/svg/brand-logos/fujifilm.svg" class="mh-30px mh-lg-40px" alt="" />
+					
+						<!-- Carousel Items -->
+						<div class="carousel-inner">
+						  <div class="carousel-item active">
+							<img src="/static/assets/images/banner1.jpg" class="d-block w-100" alt="Banner 1">
+							<div class="carousel-caption d-none d-md-block" style="margin-bottom:75px;">
+								<h1 style="font-size: 60px;color: white;">Welcome to SCAT</h1>
+							  
+							  <a href="/register_farmer" class="btn btn-success" target="_blank">Register as a Farmer</a>
 							</div>
-							<!--end::Client-->
-							<!--begin::Client-->
-							<div class="d-flex flex-center m-3 m-md-6" data-bs-toggle="tooltip" title="Vodafone">
-								<img src="/static/assets/media/svg/brand-logos/vodafone.svg" class="mh-30px mh-lg-40px" alt="" />
+						  </div>
+						  <div class="carousel-item">
+							<img src="/static/assets/images/banner2.jpg" class="d-block w-100" alt="Banner 2">
+							<div class="carousel-caption d-none d-md-block">
+								<h1 style="font-size: 60px;color: white;">Welcome to SCAT</h1>
+								<a href="/register_franchisee" class="btn btn-success" target="_blank">Register as a Franchisee</a>
 							</div>
-							<!--end::Client-->
-							<!--begin::Client-->
-							<div class="d-flex flex-center m-3 m-md-6" data-bs-toggle="tooltip" title="KPMG International">
-								<img src="/static/assets/media/svg/brand-logos/kpmg.svg" class="mh-30px mh-lg-40px" alt="" />
+						  </div>
+						  {% comment %} <div class="carousel-item">
+							<img src="/static/assets/images/banner3.jpg" class="d-block w-100" alt="Banner 3">
+							<div class="carousel-caption d-none d-md-block">
+							  <h5>Customizable</h5>
+							  <p>Easily tweak components to fit your needs.</p>
 							</div>
-							<!--end::Client-->
-							<!--begin::Client-->
-							<div class="d-flex flex-center m-3 m-md-6" data-bs-toggle="tooltip" title="Nasa">
-								<img src="/static/assets/media/svg/brand-logos/nasa.svg" class="mh-30px mh-lg-40px" alt="" />
-							</div>
-							<!--end::Client-->
-							<!--begin::Client-->
-							<div class="d-flex flex-center m-3 m-md-6" data-bs-toggle="tooltip" title="Aspnetzero">
-								<img src="/static/assets/media/svg/brand-logos/aspnetzero.svg" class="mh-30px mh-lg-40px" alt="" />
-							</div>
-							<!--end::Client-->
-							<!--begin::Client-->
-							<div class="d-flex flex-center m-3 m-md-6" data-bs-toggle="tooltip" title="AON - Empower Results">
-								<img src="/static/assets/media/svg/brand-logos/aon.svg" class="mh-30px mh-lg-40px" alt="" />
-							</div>
-							<!--end::Client-->
-							<!--begin::Client-->
-							<div class="d-flex flex-center m-3 m-md-6" data-bs-toggle="tooltip" title="Hewlett-Packard">
-								<img src="/static/assets/media/svg/brand-logos/hp-3.svg" class="mh-30px mh-lg-40px" alt="" />
-							</div>
-							<!--end::Client-->
-							<!--begin::Client-->
-							<div class="d-flex flex-center m-3 m-md-6" data-bs-toggle="tooltip" title="Truman">
-								<img src="/static/assets/media/svg/brand-logos/truman.svg" class="mh-30px mh-lg-40px" alt="" />
-							</div>
-							<!--end::Client-->
+						  </div> {% endcomment %}
 						</div>
-						<!--end::Clients-->
-					</div>
+					
+						<!-- Controls -->
+						<button class="carousel-control-prev" type="button" data-bs-target="#metronicCarousel" data-bs-slide="prev">
+						  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						  <span class="visually-hidden">Previous</span>
+						</button>
+						<button class="carousel-control-next" type="button" data-bs-target="#metronicCarousel" data-bs-slide="next">
+						  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+						  <span class="visually-hidden">Next</span>
+						</button>
+					  </div>
 					<!--end::Landing hero-->
 				</div>
 				<!--end::Wrapper-->
@@ -1682,11 +1667,11 @@
 							<div class="d-flex align-items-center order-2 order-md-1">
 								<!--begin::Logo-->
 								<a href="landing.html">
-									<img alt="Logo" src="/static/assets/media/logos/logo-landing.svg" class="h-15px h-md-20px" />
+									<img alt="Logo" src="/static/assets/images/scat_logo.svg" class="h-30px" />
 								</a>
 								<!--end::Logo image-->
 								<!--begin::Logo image-->
-								<span class="mx-5 fs-6 fw-bold text-gray-600 pt-1" href="https://keenthemes.com">© 2021 Keenthemes Inc.</span>
+								<span class="mx-5 fs-6 fw-bold text-gray-600 pt-1" href="https://scatech.in">© 2025 Scatech.</span>
 								<!--end::Logo image-->
 							</div>
 							<!--end::Copyright-->

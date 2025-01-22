@@ -166,12 +166,12 @@ def user_create(request):
     user_id = request.user.id
 
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = FarmerCreationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('user_list')
     else:
-        form = CustomUserCreationForm()
+        form = FarmerCreationForm()
     return render(request, 'user_form.html', {'form': form,'user_id': user_id })
 
 @login_required
@@ -442,3 +442,69 @@ def edit_credit(request, user_id, credit_id):
     return render(request, 'credit_form.html', {'form': form, 'user': credit.user})
 
 ### credit list on the admin side-- end
+
+
+
+
+
+
+
+###farmer contat list end
+
+login_required
+
+    #return render(request, 'user_form.html', {'form': form,'user_id': user_id })
+
+
+login_required
+def farmer_create(request):
+    user_id = request.user.id
+
+    if request.method == 'POST':
+        form = FarmerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('farmer_list')
+    else:
+        form = FarmerForm()
+    return render(request, 'farmer_form.html', {'form': form,'user_id': user_id })
+
+
+@login_required
+
+def farmer_view(request, id):
+    user_id = request.user.id
+    user = get_object_or_404(CustomUser, id=id)
+
+    form = FarmerFormView(instance=user)
+    return render(request, 'farmer_view.html', {'form': form,'user_id': user_id })
+
+
+@login_required
+
+def farmer_edit(request, id):
+    user_id = request.user.id
+    user = get_object_or_404(CustomUser, id=id)
+    if request.method == 'POST':
+        form = FarmerEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('farmer_list')
+    else:
+        form = FarmerEditForm(instance=user)
+    return render(request, 'farmer_form.html', {'form': form,'user_id': user_id })
+
+@login_required
+
+def farmer_delete(request, id):
+    user_id = request.user.id
+    user = get_object_or_404(CustomUser, id=id)
+    if request.method == 'POST':
+        user.delete()
+        return redirect('farmer_list')
+    return render(request, 'farmer_confirm_delete.html', {'user': user,'user_id': user_id })
+
+
+
+
+

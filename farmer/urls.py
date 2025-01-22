@@ -21,6 +21,12 @@ urlpatterns = [
 
 
     path('farmer_list', views.farmer_list, name='farmer_list'),
+    path('farmer/new/', admin_views.farmer_create, name='farmer_create'),
+    path('farmer/view/<int:id>/', admin_views.farmer_view, name='farmer_view'),
+    path('farmer/edit/<int:id>/', admin_views.farmer_edit, name='farmer_edit'),
+    path('farmer/delete/<int:id>/', admin_views.farmer_delete, name='farmer_delete'),
+
+
     path('franchisee_list', views.franchisee_list, name='franchisee_list'),
 
     path('farmer_upload', views.farmer_upload, name='farmer_upload'),
@@ -29,6 +35,12 @@ urlpatterns = [
     path('login_farmer/', views.farmer_login_view, name='login'),
     path('myprofile_farmer/<int:user_id>/', views.myprofile_farmer, name='myprofile_farmer'),
     path('myprofile_edit_farmer/<int:user_id>/', views.myprofile_edit_farmer, name='myprofile_edit_farmer'),
+    
+
+    path('proprofile_farmer/<int:user_id>/', views.proprofile_farmer, name='proprofile_farmer'),
+    path('proprofile_edit_farmer/<int:user_id>/', views.proprofile_edit_farmer, name='proprofile_edit_farmer'),
+    
+    
     path('register_farmer/', views.register_farmer, name='register_farmer'),
     path('register_farmer_detail/<int:user_id>/', views.register_farmer_detail, name='register_farmer_detail'),
     path('farmer_logout/', views.farmer_logout, name='logout'),

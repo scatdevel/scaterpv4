@@ -274,20 +274,20 @@
 									</div>
 									<!--end::Details-->
 									<!--begin::Navs-->
-									{% comment %} <div class="d-flex overflow-auto h-55px">
+									 <div class="d-flex overflow-auto h-55px">
 										<ul class="nav nav-stretch nav-line-tabs nav-line-tabs-2x border-transparent fs-5 fw-bolder flex-nowrap">
 											<!--begin::Nav item-->
 											<li class="nav-item">
-												<a class="nav-link text-active-primary me-6 active" href="account/overview.html">Overview</a>
+												<a class="nav-link text-active-primary me-6 active" href="/myprofile_farmer/{{user.id}}">Profile</a>
 											</li>
 											<!--end::Nav item-->
 											<!--begin::Nav item-->
 											<li class="nav-item">
-												<a class="nav-link text-active-primary me-6" href="account/settings.html">Settings</a>
+												<a class="nav-link text-active-primary me-6" href="/proprofile_farmer/{{user.id}}">Profiessional Profile</a>
 											</li>
 											<!--end::Nav item-->
 											<!--begin::Nav item-->
-											<li class="nav-item">
+											{% comment %} <li class="nav-item">
 												<a class="nav-link text-active-primary me-6" href="account/security.html">Security</a>
 											</li>
 											<!--end::Nav item-->
@@ -309,10 +309,10 @@
 											<!--begin::Nav item-->
 											<li class="nav-item">
 												<a class="nav-link text-active-primary me-6" href="account/api-keys.html">API Keys</a>
-											</li>
+											</li> {% endcomment %}
 											<!--end::Nav item-->
 										</ul>
-									</div> {% endcomment %}
+									</div> 
 									<!--begin::Navs-->
 								</div>
 							</div>
@@ -415,7 +415,22 @@
 																			</div>
 																			<!--end::Col-->
 																		</div>
-																		<!--end::Input group-
+																		<!--end::Input group-->
+
+																		<!--begin::Input group-->
+																		<div class="row mb-7">
+																			<!--begin::Label-->
+																			<label class="col-lg-4 fw-bold text-muted">PAN Card
+																			<i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="Country of origination"></i></label>
+																			<!--end::Label-->
+																			<!--begin::Col-->
+																			<div class="col-lg-8">
+																				<span class="fw-bolder fs-6 text-gray-800">{{user.pancard}}</span>
+																			</div>
+																			<!--end::Col-->
+																		</div>
+																		<!--end::Input group-->
+
 
 									<!--begin::Input group-->
 									<div class="row mb-7">
@@ -426,6 +441,8 @@
 										<div class="col-lg-8">
 											<p><span class="fw-bolder fs-6 text-gray-800">{{user.aadhaar_file}} <a href ="/media/{{user.aadhaar_file}}" target="_blank">View Aadhaar Card</a></span></p>
 											<p><span class="fw-bolder fs-6 text-gray-800"> {{user.farmer_card}} <a href ="/media/{{user.farmer_file}}" target="_blank">View Farmer Card</a></span></p>
+
+											<p><span class="fw-bolder fs-6 text-gray-800"> {{user.pancard}} <a href ="/media/{{user.pancard_file}}" target="_blank">View PAN	 Card</a></span></p>
 										</div>
 										<!--end::Col-->
 									</div>

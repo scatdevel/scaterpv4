@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,UserChangeForm
 from .models import *
 
 class CustomUserCreationForm(UserCreationForm):
@@ -78,6 +78,127 @@ class FarmerCreationForm(UserCreationForm):
 
 
 
+
+   
+class FarmerFormView(UserCreationForm):
+    role = forms.ChoiceField(
+       choices=CustomUser.ROLE_CHOICES,
+        required=True,
+        widget=forms.HiddenInput(),
+        initial='farmer'
+            )
+
+    username = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    email = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    phone = forms.CharField(
+        max_length=10,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=True
+    )
+
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=True
+    )
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'email','phone', 'role', 'password1', 'password2')
+
+    def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            # Set all fields to readonly
+            for field in self.fields.values():
+                field.widget.attrs['readonly'] = True
+                field.widget.attrs['disabled'] = True  
+
+
+
+class FarmerForm(UserCreationForm):
+    role = forms.ChoiceField(
+       choices=CustomUser.ROLE_CHOICES,
+        required=True,
+        widget=forms.HiddenInput(),
+        initial='farmer'
+            )
+
+    username = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    email = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    phone = forms.CharField(
+        max_length=10,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=True
+    )
+
+    password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=True
+    )
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'email','phone', 'role', 'password1', 'password2')
+
+
+
+
+
+
+class FarmerEditForm(UserChangeForm):
+    role = forms.ChoiceField(
+       choices=CustomUser.ROLE_CHOICES,
+        required=True,
+        widget=forms.HiddenInput(),
+        initial='farmer'
+            )
+
+    username = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    email = forms.CharField(
+        max_length=100,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    phone = forms.CharField(
+        max_length=10,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    
+  
+
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'email','phone', 'role')
+
+
+
 class FranchiseeCreationForm(UserCreationForm):
     role = forms.ChoiceField(
        choices=CustomUser.ROLE_CHOICES,
@@ -126,10 +247,18 @@ class FileUploadForm(forms.ModelForm):
         fields = ['file', 'description']
 
 
+
+
+class CustomUserChangeForm(UserChangeForm):
+    class Meta:
+        model = CustomUser
+        fields = '__all__'
+
+
 class CustomfarmerUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'phone', 'district', 'aadhaar', 'profile_image','farmer_card','aadhaar_file','farmer_file']
+        fields = ['first_name', 'last_name', 'email', 'phone', 'district', 'aadhaar','pancard', 'profile_image','farmer_card','aadhaar_file','farmer_file','pancard_file']
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -137,16 +266,49 @@ class CustomfarmerUpdateForm(forms.ModelForm):
             'phone': forms.TextInput(attrs={'class': 'form-control'}),
             'district': forms.TextInput(attrs={'class': 'form-control'}),
             'aadhaar': forms.TextInput(attrs={'class': 'form-control'}),
+            'pancard': forms.TextInput(attrs={'class': 'form-control'}),
             'farmer_card': forms.TextInput(attrs={'class': 'form-control'}),
             'profile_image': forms.FileInput(attrs={'class': 'form-control'}),
             'aadhaar_file': forms.FileInput(attrs={'class': 'form-control'}),
             'farmer_file': forms.FileInput(attrs={'class': 'form-control'}),
+            'pancard_file': forms.FileInput(attrs={'class': 'form-control'}),
         }
+
+
+class ProfarmerUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['land_location', 'land_owner', 'land_size','sand_type', 'crop', 'yield_quantity', 'land_photo']
+        widgets = {
+            'land_location': forms.TextInput(attrs={'class': 'form-control'}),
+            'land_owner': forms.TextInput(attrs={'class': 'form-control'}),
+            'land_size': forms.TextInput(attrs={'class': 'form-control'}),
+            'sand_type': forms.TextInput(attrs={'class': 'form-control'}),
+            'crop': forms.TextInput(attrs={'class': 'form-control'}),
+            'yield_quantity': forms.TextInput(attrs={'class': 'form-control'}),
+            'land_photo': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+
+
+class ProfranchiseeUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['land_location', 'land_owner', 'land_size','sand_type', 'crop', 'yield_quantity', 'land_photo']
+        widgets = {
+            'land_location': forms.TextInput(attrs={'class': 'form-control'}),
+            'land_owner': forms.TextInput(attrs={'class': 'form-control'}),
+            'land_size': forms.TextInput(attrs={'class': 'form-control'}),
+            'sand_type': forms.TextInput(attrs={'class': 'form-control'}),
+            'crop': forms.TextInput(attrs={'class': 'form-control'}),
+            'yield_quantity': forms.TextInput(attrs={'class': 'form-control'}),
+            'land_photo': forms.FileInput(attrs={'class': 'form-control'}),
+        }        
+
 
 class CustomfranchiseeUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'phone', 'district', 'aadhaar', 'farmer_card']
+        fields = ['first_name', 'last_name', 'email', 'phone', 'district', 'aadhaar','pancard', 'farmer_card','profile_image','aadhaar_file','farmer_file','pancard_file']
         widgets = {
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
@@ -154,10 +316,12 @@ class CustomfranchiseeUpdateForm(forms.ModelForm):
             'phone': forms.TextInput(attrs={'class': 'form-control'}),
             'district': forms.TextInput(attrs={'class': 'form-control'}),
             'aadhaar': forms.TextInput(attrs={'class': 'form-control'}),
+            'pancard': forms.TextInput(attrs={'class': 'form-control'}),
             'farmer_card': forms.TextInput(attrs={'class': 'form-control'}),
             'profile_image': forms.FileInput(attrs={'class': 'form-control'}),
             'aadhaar_file': forms.FileInput(attrs={'class': 'form-control'}),
             'farmer_file': forms.FileInput(attrs={'class': 'form-control'}),
+            'pancard_file': forms.FileInput(attrs={'class': 'form-control'}),
         }
 
 
