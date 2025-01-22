@@ -36,6 +36,9 @@ from django.contrib import messages
 
 logger = logging.getLogger(__name__)
 
+def landing_page(request):
+    return render(request, 'landing.html')
+
 def redirect_to_login(request):
     return redirect('login')
 
